@@ -1,0 +1,9 @@
+[Core]
+Name = USB Rocket Launcher
+Module = rocket_launcher
+
+[Documentation]
+Author = Hannes Rauhe
+Version = 0.1
+Website = http://www.lunchinator.de
+Description = This plugin enables the rocket launcher to be remote controlled by another lunchinator instance (code base on pyrocket)

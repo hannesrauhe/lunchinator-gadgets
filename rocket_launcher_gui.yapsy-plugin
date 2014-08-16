@@ -1,0 +1,9 @@
+[Core]
+Name = USB Rocket Launcher GUI
+Module = rocket_launcher_gui
+
+[Documentation]
+Author = Hannes Rauhe
+Version = 0.1
+Website = http://www.lunchinator.de
+Description = This plugin allows to remote control a rocket launcher run by the USB Rocket Launcher Plugin
