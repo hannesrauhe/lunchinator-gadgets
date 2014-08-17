@@ -2,7 +2,6 @@ from lunchinator.plugin import iface_gui_plugin
 from lunchinator import get_server, log_info, log_error, log_exception, log_debug
 from lunchinator.peer_actions import PeerAction
 from threading import Timer
-from functools import partial
 import os, json
 
 class _FireRocketAction(PeerAction):
@@ -68,7 +67,9 @@ class rocket_launcher(iface_gui_plugin):
                 try:
                     if value=="FIRE":
                         self.launcher.stop_movement()
-                    self.launcher.start_movement(self.number_map.index(value))
+                    else:
+                        self.launcher.start_movement(self.number_map.index(value))
+                        Timer(0.5, self.launcher.stop_movement).start()
                 except ValueError as e:
                     log_debug("USB Rocket: Command value unknown: ", value)
     
@@ -84,18 +85,6 @@ class rocket_launcher(iface_gui_plugin):
         
         self.w = rocketWidget(parent, self)            
         return self.w
-    
-    def movement_wrapper(self, direction):
-        if direction == 5:
-            self.launcher.stop_movement()
-            return False
-
-        if direction == 4 or not (self.launcher.previous_limit_switch_states[direction]):
-            self.launcher.start_movement(direction)
-            Timer(1.0, partial(self.movement_wrapper, 5)).start()
-            
-            return True
-        return False
     
     def send_command(self, cmd, peerID = None):
         if peerID:
