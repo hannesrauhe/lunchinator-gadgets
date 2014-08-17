@@ -1,6 +1,8 @@
 from lunchinator.plugin import iface_gui_plugin
 from lunchinator import get_server, log_info, log_error, log_exception, log_debug
 from lunchinator.peer_actions import PeerAction
+from threading import Timer
+from functools import partial
 import os, json
 
 class _FireRocketAction(PeerAction):
@@ -88,9 +90,10 @@ class rocket_launcher(iface_gui_plugin):
             self.launcher.stop_movement()
             return False
 
-        if direction == 4 or not (self.launcher.previous_limit_switch_states[direction] and not self.limit_override.get_active()):
+        if direction == 4 or not (self.launcher.previous_limit_switch_states[direction]):
             self.launcher.start_movement(direction)
-
+            Timer(1.0, partial(self.movement_wrapper, 5)).start()
+            
             return True
         return False
     
