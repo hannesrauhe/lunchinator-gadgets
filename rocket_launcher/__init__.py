@@ -8,7 +8,7 @@ class _FireRocketAction(PeerAction):
         return u"FireRocket"
     
     def appliesToPeer(self, _peerID, peerInfo):
-        return u"USBROCKET_v" in peerInfo
+        return u"hasUSBRocket" in peerInfo
     
     def performAction(self, peerID, _peerInfo, parentWidget):
         self.getPluginObject().send_fire(peerID)
