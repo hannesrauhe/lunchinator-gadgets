@@ -1,5 +1,5 @@
 from lunchinator.plugin import iface_gui_plugin
-from lunchinator import get_server, log_info, log_error, log_exception
+from lunchinator import get_server, log_info, log_error, log_exception, log_debug
 from lunchinator.peer_actions import PeerAction
 import os, json
 
@@ -26,6 +26,7 @@ class rocket_launcher(iface_gui_plugin):
     def __init__(self):
         super(rocket_launcher, self).__init__()
         self.options = [(("remote_only","Only Remote Control", self.activate_rocket_launcher),True)]
+        self.number_map = ["DOWN","UP","LEFT","RIGHT","FIRE"]
         
     def activate(self):        
         iface_gui_plugin.activate(self)
@@ -62,8 +63,15 @@ class rocket_launcher(iface_gui_plugin):
     def process_event(self, cmd, value, ip, member_info, preprocessedData=None):
         if self.launcher:
             if cmd == "HELO_USBROCKET":
-                log_error("FIRE!")
-                self.launcher.start_movement(4)
+                try:
+                    if value=="FIRE":
+                        self.launcher.stop_movement()
+                    self.launcher.start_movement(self.number_map.index(value))
+                except ValueError as e:
+                    log_debug("USB Rocket: Command value unknown: ", value)
+    
+    def extendsInfoDict(self):
+        return True
     
     def extendInfoDict(self, infoDict):
         if self.launcher:
@@ -75,7 +83,18 @@ class rocket_launcher(iface_gui_plugin):
         self.w = rocketWidget(parent, self)            
         return self.w
     
-    def send_fire(self, peerID = None):
+    def movement_wrapper(self, direction):
+        if direction == 5:
+            self.launcher.stop_movement()
+            return False
+
+        if direction == 4 or not (self.launcher.previous_limit_switch_states[direction] and not self.limit_override.get_active()):
+            self.launcher.start_movement(direction)
+
+            return True
+        return False
+    
+    def send_command(self, cmd, peerID = None):
         if peerID:
             get_server().call("HELO_USBROCKET FIRE", peerIDs=[peerID])
         else:

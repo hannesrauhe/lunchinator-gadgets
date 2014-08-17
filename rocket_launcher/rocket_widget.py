@@ -9,12 +9,12 @@ class rocketWidget(QWidget):
         self.ui.setupUi(self)
         
     def left_clicked(self):
-        pass
+        self.sendCommandClass.send_command("RIGHT")
     def right_clicked(self):
-        pass
+        self.sendCommandClass.send_command("LEFT")
     def up_clicked(self):
-        pass
+        self.sendCommandClass.send_command("UP")
     def down_clicked(self):
-        pass
+        self.sendCommandClass.send_command("DOWN")
     def fire_clicked(self):
-        self.sendCommandClass.send_fire()
+        self.sendCommandClass.send_command("FIRE")
