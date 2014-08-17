@@ -11,7 +11,7 @@ class _FireRocketAction(PeerAction):
         return u"hasUSBRocket" in peerInfo
     
     def performAction(self, peerID, _peerInfo, parentWidget):
-        self.getPluginObject().send_fire(peerID)
+        self.getPluginObject().send_command("FIRE", peerID)
         
     def getMessagePrefix(self):
         return "USBROCKET"
@@ -26,7 +26,7 @@ class rocket_launcher(iface_gui_plugin):
     def __init__(self):
         super(rocket_launcher, self).__init__()
         self.options = [(("remote_only","Only Remote Control", self.activate_rocket_launcher),True)]
-        self.number_map = ["DOWN","UP","LEFT","RIGHT","FIRE"]
+        self.number_map = ["DOWN","UP","LEFT","RIGHT","FIRE","STOP"]
         
     def activate(self):        
         iface_gui_plugin.activate(self)
@@ -96,6 +96,6 @@ class rocket_launcher(iface_gui_plugin):
     
     def send_command(self, cmd, peerID = None):
         if peerID:
-            get_server().call("HELO_USBROCKET FIRE", peerIDs=[peerID])
+            get_server().call("HELO_USBROCKET %s"%cmd, peerIDs=[peerID])
         else:
-            get_server().call("HELO_USBROCKET FIRE")
+            get_server().call("HELO_USBROCKET %s"%cmd)
