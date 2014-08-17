@@ -31,8 +31,7 @@ class rocket_launcher(iface_gui_plugin):
         iface_gui_plugin.activate(self)
         self._rocketAction = _FireRocketAction()
         self.launcher = None
-        if not self.options["remote_only"]:
-            self.activat_rocket_launcher()
+        self.activate_rocket_launcher(False, self.options["remote_only"])
         
     def activate_rocket_launcher(self, _setting, newVal):
         '''only called if not remote_only -> the rocket launcher is attached to this peer'''
@@ -47,7 +46,8 @@ class rocket_launcher(iface_gui_plugin):
                  
                 self.launcher = self.rocket_controller.launchers[0]
             except Exception as e:
-                log_exception("USB Rocket launcher could not be activated: %s", e)
+                log_exception("USB Rocket launcher could not be activated: ", e)
+                self.launcher = None
                 #-> problem while activating: only remote control!
                 return True
             
@@ -60,10 +60,10 @@ class rocket_launcher(iface_gui_plugin):
         return [self._rocketAction]         
     
     def process_event(self, cmd, value, ip, member_info, preprocessedData=None):
-        if self.options["remote_only"]:
+        if self.launcher:
             if cmd == "HELO_USBROCKET":
                 log_error("FIRE!")
-    #             self.launcher.start_movement(4)
+                self.launcher.start_movement(4)
     
     def extendInfoDict(self, infoDict):
         if self.launcher:
