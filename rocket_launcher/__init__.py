@@ -67,6 +67,7 @@ class rocket_launcher(iface_gui_plugin):
                 try:
                     if value=="FIRE":
                         self.launcher.stop_movement()
+                        self.launcher.start_movement(4)
                     else:
                         self.launcher.start_movement(self.number_map.index(value))
                         Timer(0.5, self.launcher.stop_movement).start()
