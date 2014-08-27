@@ -18,7 +18,7 @@ class _FireRocketAction(PeerAction):
         return "USBROCKET"
     
     def getConfirmationMessage(self, _peerID, peerName, msgData):        
-        return u"%s wants to Fire the USB rocket" % (peerName)
+        return u"%s wants to Control your USB Rocket Launcher" % (peerName)
     
 class rocket_launcher(iface_gui_plugin):  
     VERSION_INITIAL = 0
