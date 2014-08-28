@@ -1,5 +1,5 @@
 [Core]
-Name = USB Panic Button
+Name = hannesrauhe.lunchinator_usb_gadgets.panic_button
 Module = panic_button
 
 [Documentation]

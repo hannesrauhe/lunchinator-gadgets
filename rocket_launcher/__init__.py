@@ -29,6 +29,9 @@ class rocket_launcher(iface_gui_plugin):
         self.options = [(("remote_only","Only Remote Control", self.activate_rocket_launcher),True)]
         self.number_map = ["DOWN","UP","LEFT","RIGHT","FIRE","STOP"]
         
+    def get_displayed_name(self):
+        return u"USB Rocket Launcher"
+        
     def activate(self):        
         iface_gui_plugin.activate(self)
         self._rocketAction = _FireRocketAction()

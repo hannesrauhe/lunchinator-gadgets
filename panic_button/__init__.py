@@ -10,6 +10,9 @@ class panic_button(iface_general_plugin):
                       "idProduct":"0x000d",
                       "panic_msg":"lunch panic" }
         
+    def get_displayed_name(self):
+        return u"USB Panic Button"
+        
     def activate(self):        
         from panic_button.panic_button_listener import panic_button_listener
         iface_general_plugin.activate(self)

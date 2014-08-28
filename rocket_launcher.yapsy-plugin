@@ -1,5 +1,5 @@
 [Core]
-Name = USB Rocket Launcher
+Name = hannesrauhe.lunchinator_usb_gadgets.rocket_launcher
 Module = rocket_launcher
 
 [Documentation]
